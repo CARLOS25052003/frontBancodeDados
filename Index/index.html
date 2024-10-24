@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Controle Financeiro</title>
+</head>
+<body>
+<div class="container">
+    <h1>Controle Financeiro</h1>
+
+    <div class="form-section">
+        <h2>Adicionar Salário</h2>
+        <form id="salaryForm" class="form">
+            <input type="number" id="salaryAmount" placeholder="Valor do Salário" required>
+            <button type="submit">Adicionar Salário</button>
+        </form>
+    </div>
+
+    <div class="form-section">
+        <h2>Adicionar Despesa</h2>
+        <form id="expenseForm" class="form">
+            <input type="text" id="expenseDescription" placeholder="Descrição da Despesa" required>
+            <input type="number" id="expenseAmount" placeholder="Valor da Despesa" required>
+            <button type="submit">Adicionar Despesa</button>
+        </form>
+    </div>
+
+    <div class="list-section">
+        <h2>Salários</h2>
+        <ul id="salaryList" class="list"></ul>
+
+        <h2>Despesas</h2>
+        <ul id="expenseList" class="list"></ul>
+    </div>
+
+    <h2>Saldo Total: R$ <span id="balance">0.00</span></h2>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
