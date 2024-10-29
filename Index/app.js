@@ -120,6 +120,69 @@ async function loadData() {
     // Atualizar saldo
     updateBalance();
 }
+// Função para exibir o salário na lista com botão de remoção
+function displaySalary(salary) {
+    const li = document.createElement('li');
+    li.textContent = `Salário: R$ ${salary.amount.toFixed(2)} `;
+
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'Remover';
+    deleteButton.onclick = async () => {
+        await removeSalary(salary.id);
+        li.remove();
+        totalBalance -= salary.amount;
+        updateBalance();
+    };
+
+    li.appendChild(deleteButton);
+    salaryList.appendChild(li);
+}
+
+// Função para exibir a despesa na lista com botão de remoção
+function displayExpense(expense) {
+    const li = document.createElement('li');
+    li.textContent = `${expense.description}: R$ ${expense.amount.toFixed(2)} `;
+
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'Remover';
+    deleteButton.onclick = async () => {
+        await removeExpense(expense.id);
+        li.remove();
+        totalBalance += expense.amount;
+        updateBalance();
+    };
+
+    li.appendChild(deleteButton);
+    expenseList.appendChild(li);
+}
+
+// Função para remover um salário do backend
+async function removeSalary(id) {
+    try {
+        const response = await fetch(`http://localhost:8080/salaries/${id}`, {
+            method: 'DELETE',
+        });
+        if (!response.ok) {
+            console.error('Erro ao remover salário:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Erro ao remover salário:', error);
+    }
+}
+
+// Função para remover uma despesa do backend
+async function removeExpense(id) {
+    try {
+        const response = await fetch(`http://localhost:8080/expenses/${id}`, {
+            method: 'DELETE',
+        });
+        if (!response.ok) {
+            console.error('Erro ao remover despesa:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Erro ao remover despesa:', error);
+    }
+}
 
 // Carregar dados ao iniciar a página
 window.onload = loadData;
