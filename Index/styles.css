@@ -95,3 +95,25 @@ button:hover {
     margin-top: 20px;
     text-align: center;
 }
+.list li {
+    display: flex; /* Usar flexbox para o alinhamento */
+    justify-content: space-between; /* Espaçamento entre o texto e o botão */
+    align-items: center; /* Centraliza verticalmente o texto e o botão */
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.2s;
+}
+
+.delete-button {
+    background-color: #dc3545; /* Cor do botão de excluir */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 5px 10px;
+    transition: background-color 0.3s;
+}
+
+.delete-button:hover {
+    background-color: #c82333; /* Cor do botão de excluir ao passar o mouse */
+}

@@ -93,11 +93,15 @@ function updateBalance() {
 // Função para exibir o salário na lista
 function displaySalary(salary) {
     const li = document.createElement('li');
+    li.style.display = 'flex'; // Usando flexbox para alinhar o texto e o botão
+    li.style.justifyContent = 'space-between'; // Espaçamento entre o texto e o botão
+
     li.textContent = `Salário: R$ ${salary.amount.toFixed(2)}`;
 
     // Botão de deletar
     const deleteButton = document.createElement('button');
     deleteButton.textContent = 'Excluir';
+    deleteButton.className = 'delete-button'; // Adicionando classe para estilo
     deleteButton.addEventListener('click', () => deleteSalary(salary.id, salary.amount));
     li.appendChild(deleteButton);
 
@@ -107,11 +111,15 @@ function displaySalary(salary) {
 // Função para exibir a despesa na lista
 function displayExpense(expense) {
     const li = document.createElement('li');
+    li.style.display = 'flex'; // Usando flexbox para alinhar o texto e o botão
+    li.style.justifyContent = 'space-between'; // Espaçamento entre o texto e o botão
+
     li.textContent = `${expense.description}: R$ ${expense.amount.toFixed(2)}`;
 
     // Botão de deletar
     const deleteButton = document.createElement('button');
     deleteButton.textContent = 'Excluir';
+    deleteButton.className = 'delete-button'; // Adicionando classe para estilo
     deleteButton.addEventListener('click', () => deleteExpense(expense.id, expense.amount));
     li.appendChild(deleteButton);
 
@@ -121,11 +129,15 @@ function displayExpense(expense) {
 // Função para exibir a renda fixa na lista
 function displayRendaFixa(rendaFixa) {
     const li = document.createElement('li');
+    li.style.display = 'flex'; // Usando flexbox para alinhar o texto e o botão
+    li.style.justifyContent = 'space-between'; // Espaçamento entre o texto e o botão
+
     li.textContent = `${rendaFixa.description}: R$ ${rendaFixa.amount.toFixed(2)}`;
 
     // Botão de deletar
     const deleteButton = document.createElement('button');
     deleteButton.textContent = 'Excluir';
+    deleteButton.className = 'delete-button'; // Adicionando classe para estilo
     deleteButton.addEventListener('click', () => deleteRendaFixa(rendaFixa.id, rendaFixa.amount));
     li.appendChild(deleteButton);
 
