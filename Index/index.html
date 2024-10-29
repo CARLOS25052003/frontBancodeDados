@@ -11,12 +11,22 @@
     <h1>Controle Financeiro</h1>
 
     <div class="form-section">
-        <h2>Adicionar Salário</h2>
-        <form id="salaryForm" class="form">
-            <input type="number" id="salaryAmount" placeholder="Valor do Salário" required>
-            <button type="submit">Adicionar Salário</button>
+        <h2>Adicionar Renda Fixa</h2>
+        <form id="rendaFixaForm">
+            <input type="text" id="rendaFixaDescription" placeholder="Descrição da Renda Fixa" required>
+            <input type="number" id="rendaFixaAmount" placeholder="Valor da Renda Fixa" required>
+            <button type="submit">Adicionar Renda Fixa</button>
         </form>
     </div>
+
+    <div class="form-section">
+        <h2>Adicionar Renda Extra</h2>
+        <form id="salaryForm" class="form">
+            <input type="number" id="salaryAmount" placeholder="Valor Renda Extra" required>
+            <button type="submit">Adicionar Renda Extra</button>
+        </form>
+    </div>
+
 
     <div class="form-section">
         <h2>Adicionar Despesa</h2>
@@ -27,12 +37,18 @@
         </form>
     </div>
 
+
     <div class="list-section">
-        <h2>Salários</h2>
+        <h2>Rendas Fixas</h2>
+        <ul id="rendaFixaList" class="list"></ul>
+
+        <h2>Renda Extra</h2>
         <ul id="salaryList" class="list"></ul>
+
 
         <h2>Despesas</h2>
         <ul id="expenseList" class="list"></ul>
+
     </div>
 
     <h2>Saldo Total: R$ <span id="balance">0.00</span></h2>
