@@ -1,60 +1,49 @@
-const salaryForm = document.getElementById('salaryForm');
-const expenseForm = document.getElementById('expenseForm');
+const rendaExtraForm = document.getElementById('rendaExtraForm');
+const despesaForm = document.getElementById('despesaForm');
 const rendaFixaForm = document.getElementById('rendaFixaForm');
-const salaryList = document.getElementById('salaryList');
-const expenseList = document.getElementById('expenseList');
+const rendaExtraList = document.getElementById('rendaExtraList');
+const despesaList = document.getElementById('despesaList');
 const rendaFixaList = document.getElementById('rendaFixaList');
 const balanceDisplay = document.getElementById('balance');
 
 let totalBalance = 0;
 
-// Adicionar Salário
-salaryForm.addEventListener('submit', async (e) => {
+// Função para formatar a data para o formato desejado (dia/mês/ano)
+function formatDateToDMY(date) {
+    const [year, month, day] = date.split('-');
+    return `${day}/${month}/${year}`;
+}
+
+// Adicionar Renda Extra
+rendaExtraForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const salaryAmount = document.getElementById('salaryAmount').value;
+
+    const rendaExtraDescription = document.getElementById('rendaExtraDescription').value.trim();
+    const rendaExtraAmount = document.getElementById('rendaExtraAmount').value.replace(",", ".");
+    const rendaExtraDate = formatDateToDMY(document.getElementById('rendaExtraDate').value); // Formata a data
 
     try {
-        const response = await fetch('http://localhost:8080/salaries', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ amount: parseFloat(salaryAmount) }),
-        });
-        if (response.ok) {
-            const salary = await response.json();
-            totalBalance += salary.amount;
-            updateBalance();
-            displaySalary(salary);
-            salaryForm.reset();
-        }
-    } catch (error) {
-        console.error('Erro ao adicionar salário:', error);
-    }
-});
-
-// Adicionar Despesa
-expenseForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const expenseDescription = document.getElementById('expenseDescription').value;
-    const expenseAmount = document.getElementById('expenseAmount').value;
-
-    try {
-        const response = await fetch('http://localhost:8080/expenses', {
+        const response = await fetch('http://localhost:8080/renda-extra', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                description: expenseDescription,
-                amount: parseFloat(expenseAmount),
+                description: rendaExtraDescription,
+                amount: parseFloat(rendaExtraAmount),
+                date_added: rendaExtraDate // Usa a data já no formato correto
             }),
         });
+
         if (response.ok) {
-            const expense = await response.json();
-            totalBalance -= expense.amount;
+            const rendaExtra = await response.json();
+            totalBalance += rendaExtra.amount;
             updateBalance();
-            displayExpense(expense);
-            expenseForm.reset();
+            displayRendaExtra(rendaExtra);
+            rendaExtraForm.reset();
+        } else {
+            console.error('Erro ao adicionar renda extra:', await response.text());
         }
     } catch (error) {
-        console.error('Erro ao adicionar despesa:', error);
+        console.error('Erro ao adicionar renda extra:', error);
     }
 });
 
@@ -62,7 +51,8 @@ expenseForm.addEventListener('submit', async (e) => {
 rendaFixaForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const rendaFixaDescription = document.getElementById('rendaFixaDescription').value;
-    const rendaFixaAmount = document.getElementById('rendaFixaAmount').value;
+    const rendaFixaAmount = document.getElementById('rendaFixaAmount').value.replace(",", ".");
+    const rendaFixaDate = formatDateToDMY(document.getElementById('rendaFixaDate').value); // Formata a data
 
     try {
         const response = await fetch('http://localhost:8080/renda_fixa', {
@@ -71,17 +61,85 @@ rendaFixaForm.addEventListener('submit', async (e) => {
             body: JSON.stringify({
                 description: rendaFixaDescription,
                 amount: parseFloat(rendaFixaAmount),
+                date_added: rendaFixaDate // Usa a data já no formato correto
             }),
         });
+
         if (response.ok) {
             const rendaFixa = await response.json();
             totalBalance += rendaFixa.amount;
             updateBalance();
             displayRendaFixa(rendaFixa);
             rendaFixaForm.reset();
+        } else {
+            console.error('Erro ao adicionar renda fixa:', await response.text());
         }
     } catch (error) {
         console.error('Erro ao adicionar renda fixa:', error);
+    }
+});
+
+// Adicionar Despesa
+despesaForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const despesaDescription = document.getElementById('despesaDescription').value;
+    const despesaAmount = document.getElementById('despesaAmount').value.replace(",", ".");
+    const despesaDate = formatDateToDMY(document.getElementById('despesaDate').value); // Formata a data
+
+    try {
+        const response = await fetch('http://localhost:8080/despesas', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                description: despesaDescription,
+                amount: parseFloat(despesaAmount),
+                date_added: despesaDate // Usa a data já no formato correto
+            }),
+        });
+
+        if (response.ok) {
+            const despesa = await response.json();
+            totalBalance -= despesa.amount;
+            updateBalance();
+            displayDespesa(despesa);
+            despesaForm.reset();
+        } else {
+            console.error('Erro ao adicionar despesa:', await response.text());
+        }
+    } catch (error) {
+        console.error('Erro ao adicionar despesa:', error);
+    }
+});
+
+// Adicionar Despesa Fixa
+despesaFixaForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const despesaFixaDescription = document.getElementById('despesaFixaDescription').value;
+    const despesaFixaAmount = document.getElementById('despesaFixaAmount').value.replace(",", ".");
+    const despesaFixaDate = formatDateToDMY(document.getElementById('despesaFixaDate').value); // Formata a data
+
+    try {
+        const response = await fetch('http://localhost:8080/despesas-fixas', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                description: despesaFixaDescription,
+                amount: parseFloat(despesaFixaAmount),
+                date_added: despesaFixaDate // Usa a data já no formato correto
+            }),
+        });
+
+        if (response.ok) {
+            const despesaFixa = await response.json();
+            totalBalance -= despesaFixa.amount;
+            updateBalance();
+            displayDespesaFixa(despesaFixa);
+            despesaFixaForm.reset();
+        } else {
+            console.error('Erro ao adicionar despesa fixa:', await response.text());
+        }
+    } catch (error) {
+        console.error('Erro ao adicionar despesa fixa:', error);
     }
 });
 
@@ -90,81 +148,82 @@ function updateBalance() {
     balanceDisplay.textContent = `Saldo Total: R$ ${totalBalance.toFixed(2)}`;
 }
 
-// Função para exibir o salário na lista
-function displaySalary(salary) {
+// Função para exibir a renda extra na lista
+function displayRendaExtra(rendaExtra) {
     const li = document.createElement('li');
-    li.style.display = 'flex'; // Usando flexbox para alinhar o texto e o botão
-    li.style.justifyContent = 'space-between'; // Espaçamento entre o texto e o botão
+    li.style.display = 'flex';
+    li.style.justifyContent = 'space-between';
 
-    li.textContent = `Salário: R$ ${salary.amount.toFixed(2)}`;
+    li.textContent = `Renda Extra: R$ ${rendaExtra.amount.toFixed(2)}`;
 
-    // Botão de deletar
     const deleteButton = document.createElement('button');
     deleteButton.textContent = 'Excluir';
-    deleteButton.className = 'delete-button'; // Adicionando classe para estilo
-    deleteButton.addEventListener('click', () => deleteSalary(salary.id, salary.amount));
+    deleteButton.className = 'delete-button';
+    deleteButton.addEventListener('click', () => deleteRendaExtra(rendaExtra.id, rendaExtra.amount));
     li.appendChild(deleteButton);
 
-    salaryList.appendChild(li);
+    rendaExtraList.appendChild(li);
 }
 
 // Função para exibir a despesa na lista
-function displayExpense(expense) {
+function displayDespesa(despesa) {
     const li = document.createElement('li');
-    li.style.display = 'flex'; // Usando flexbox para alinhar o texto e o botão
-    li.style.justifyContent = 'space-between'; // Espaçamento entre o texto e o botão
+    li.style.display = 'flex';
+    li.style.justifyContent = 'space-between';
 
-    li.textContent = `${expense.description}: R$ ${expense.amount.toFixed(2)}`;
+    li.textContent = `${despesa.description}: R$ ${despesa.amount.toFixed(2)}`;
 
-    // Botão de deletar
     const deleteButton = document.createElement('button');
     deleteButton.textContent = 'Excluir';
-    deleteButton.className = 'delete-button'; // Adicionando classe para estilo
-    deleteButton.addEventListener('click', () => deleteExpense(expense.id, expense.amount));
+    deleteButton.className = 'delete-button';
+    deleteButton.addEventListener('click', () => deleteDespesa(despesa.id, despesa.amount));
     li.appendChild(deleteButton);
 
-    expenseList.appendChild(li);
+    despesaList.appendChild(li);
 }
 
 // Função para exibir a renda fixa na lista
 function displayRendaFixa(rendaFixa) {
     const li = document.createElement('li');
-    li.style.display = 'flex'; // Usando flexbox para alinhar o texto e o botão
-    li.style.justifyContent = 'space-between'; // Espaçamento entre o texto e o botão
+    li.style.display = 'flex';
+    li.style.justifyContent = 'space-between';
 
     li.textContent = `${rendaFixa.description}: R$ ${rendaFixa.amount.toFixed(2)}`;
 
-    // Botão de deletar
     const deleteButton = document.createElement('button');
     deleteButton.textContent = 'Excluir';
-    deleteButton.className = 'delete-button'; // Adicionando classe para estilo
+    deleteButton.className = 'delete-button';
     deleteButton.addEventListener('click', () => deleteRendaFixa(rendaFixa.id, rendaFixa.amount));
     li.appendChild(deleteButton);
 
     rendaFixaList.appendChild(li);
 }
 
-// Funções para deletar salário, despesa, renda fixa
-async function deleteSalary(id, amount) {
+// Funções para deletar renda extra, despesa, renda fixa
+async function deleteRendaExtra(id, amount) {
     try {
-        const response = await fetch(`http://localhost:8080/salaries/${id}`, { method: 'DELETE' });
+        const response = await fetch(`http://localhost:8080/renda-extra/${id}`, { method: 'DELETE' });
         if (response.ok) {
             totalBalance -= amount;
             updateBalance();
             loadData();
+        } else {
+            console.error('Erro ao deletar renda extra:', await response.text());
         }
     } catch (error) {
-        console.error('Erro ao deletar salário:', error);
+        console.error('Erro ao deletar renda extra:', error);
     }
 }
 
-async function deleteExpense(id, amount) {
+async function deleteDespesa(id, amount) {
     try {
-        const response = await fetch(`http://localhost:8080/expenses/${id}`, { method: 'DELETE' });
+        const response = await fetch(`http://localhost:8080/despesas/${id}`, { method: 'DELETE' });
         if (response.ok) {
             totalBalance += amount;
             updateBalance();
             loadData();
+        } else {
+            console.error('Erro ao deletar despesa:', await response.text());
         }
     } catch (error) {
         console.error('Erro ao deletar despesa:', error);
@@ -178,56 +237,42 @@ async function deleteRendaFixa(id, amount) {
             totalBalance -= amount;
             updateBalance();
             loadData();
+        } else {
+            console.error('Erro ao deletar renda fixa:', await response.text());
         }
     } catch (error) {
         console.error('Erro ao deletar renda fixa:', error);
     }
 }
 
-// Função para carregar dados ao iniciar a página
+// Função para carregar os dados
 async function loadData() {
-    salaryList.innerHTML = '';
-    expenseList.innerHTML = '';
+    // Limpa as listas
+    rendaExtraList.innerHTML = '';
+    despesaList.innerHTML = '';
     rendaFixaList.innerHTML = '';
-    totalBalance = 0;
 
-    // Carregar salários
-    try {
-        const salaryResponse = await fetch('http://localhost:8080/salaries');
-        if (salaryResponse.ok) {
-            const salaries = await salaryResponse.json();
-            salaries.forEach(displaySalary);
-            totalBalance += salaries.reduce((sum, salary) => sum + salary.amount, 0);
-        }
-    } catch (error) {
-        console.error('Erro ao carregar salários:', error);
+    // Carregar Renda Extra
+    const responseRendaExtra = await fetch('http://localhost:8080/renda-extra');
+    if (responseRendaExtra.ok) {
+        const rendaExtraItems = await responseRendaExtra.json();
+        rendaExtraItems.forEach(displayRendaExtra);
     }
 
-    // Carregar despesas
-    try {
-        const expenseResponse = await fetch('http://localhost:8080/expenses');
-        if (expenseResponse.ok) {
-            const expenses = await expenseResponse.json();
-            expenses.forEach(displayExpense);
-            totalBalance -= expenses.reduce((sum, expense) => sum + expense.amount, 0);
-        }
-    } catch (error) {
-        console.error('Erro ao carregar despesas:', error);
+    // Carregar Despesas
+    const responseDespesas = await fetch('http://localhost:8080/despesas');
+    if (responseDespesas.ok) {
+        const despesaItems = await responseDespesas.json();
+        despesaItems.forEach(displayDespesa);
     }
 
-    // Carregar rendas fixas
-    try {
-        const rendaFixaResponse = await fetch('http://localhost:8080/renda_fixa');
-        if (rendaFixaResponse.ok) {
-            const rendasFixas = await rendaFixaResponse.json();
-            rendasFixas.forEach(displayRendaFixa);
-            totalBalance += rendasFixas.reduce((sum, rendaFixa) => sum + rendaFixa.amount, 0);
-        }
-    } catch (error) {
-        console.error('Erro ao carregar rendas fixas:', error);
+    // Carregar Renda Fixa
+    const responseRendaFixa = await fetch('http://localhost:8080/renda_fixa');
+    if (responseRendaFixa.ok) {
+        const rendaFixaItems = await responseRendaFixa.json();
+        rendaFixaItems.forEach(displayRendaFixa);
     }
-
-    updateBalance();
 }
 
-window.onload = loadData;
+// Carrega os dados ao iniciar
+loadData();

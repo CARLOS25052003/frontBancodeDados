@@ -12,27 +12,41 @@
 
     <div class="form-section">
         <h2>Adicionar Renda Fixa</h2>
-        <form id="rendaFixaForm">
-            <input type="text" id="rendaFixaDescription" placeholder="Descrição da Renda Fixa" required>
-            <input type="number" id="rendaFixaAmount" placeholder="Valor da Renda Fixa" required>
-            <button type="submit">Adicionar Renda Fixa</button>
+        <form id="rendaFixaForm" >
+            <input type="text" id="rendaFixaDescription" class="form-control" placeholder="Descrição" required>
+            <input type="number" id="rendaFixaAmount" class="form-control" placeholder="Valor (R$)" required>
+            <input type="date" id="rendaFixaDate" class="form-control" required>
+            <button type="submit" class="btn-adicionar-despesa">Adicionar Renda Fixa</button>
         </form>
     </div>
 
     <div class="form-section">
-        <h2>Adicionar Salário</h2>
-        <form id="salaryForm" class="form">
-            <input type="number" id="salaryAmount" placeholder="Valor do Salário" required>
-            <button type="submit">Adicionar Salário</button>
+        <h2>Adicionar Renda Extra</h2>
+        <form id="rendaExtraForm" >
+            <input type="text" id="rendaExtraDescription" class="form-control" placeholder="Descrição da Renda Extra" required>
+            <input type="number" id="rendaExtraAmount" class="form-control" placeholder="Valor da Renda Extra (ex: 300,50)" required>
+            <input type="date" id="rendaExtraDate" class="form-control" required>
+            <button type="submit" class="butãoconfuso">Adicionar Renda Extra</button>
         </form>
     </div>
 
     <div class="form-section">
         <h2>Adicionar Despesa</h2>
-        <form id="expenseForm">
-            <input type="text" id="expenseDescription" placeholder="Descrição da Despesa" required>
-            <input type="number" id="expenseAmount" placeholder="Valor da Despesa" required>
-            <button type="submit">Adicionar Despesa</button>
+        <form id="despesaForm">
+            <input type="text" id="despesaDescription" class="form-control" placeholder="Descrição da Despesa" required>
+            <input type="number" id="despesaAmount" class="form-control" placeholder="Valor da Despesa (ex: 500,00)" required>
+            <input type="date" id="despesaDate" class="form-control" required>
+            <button type="submit" class="butãoconfuso">Adicionar Despesa</button>
+        </form>
+    </div>
+
+    <div class="form-section">
+        <h2>Adicionar Despesa Fixa</h2>
+        <form id="despesaFixaForm" >
+            <input type="text" id="despesaFixaDescription" class="form-control" placeholder="Descrição da Despesa Fixa" required>
+            <input type="number" id="despesaFixaAmount" class="form-control" placeholder="Valor da Despesa Fixa (ex: 200,00)" required>
+            <input type="date" id="despesaFixaDate" class="form-control" required>
+            <button type="submit" class="btn-adicionar-despesa">Adicionar Despesa Fixa</button>
         </form>
     </div>
 
@@ -40,11 +54,14 @@
         <h2>Rendas Fixas</h2>
         <ul id="rendaFixaList" class="list"></ul>
 
-        <h2>Salários</h2>
-        <ul id="salaryList" class="list"></ul>
+        <h2>Rendas Extras</h2>
+        <ul id="rendaExtraList" class="list"></ul>
 
         <h2>Despesas</h2>
-        <ul id="expenseList" class="list"></ul>
+        <ul id="despesaList" class="list"></ul>
+
+        <h2>Despesas Fixas</h2>
+        <ul id="despesaFixaList" class="list"></ul>
     </div>
 
     <h2><span id="balance">0.00</span></h2>
