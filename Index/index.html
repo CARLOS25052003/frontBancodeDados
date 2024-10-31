@@ -14,7 +14,7 @@
         <h2>Adicionar Renda Fixa</h2>
         <form id="rendaFixaForm" >
             <input type="text" id="rendaFixaDescription" class="form-control" placeholder="Descrição" required>
-            <input type="number" id="rendaFixaAmount" class="form-control" placeholder="Valor (R$)" required>
+            <input type="number" id="rendaFixaAmount" step="0.01" class="form-control" placeholder="Valor (R$)" required>
             <input type="text" id="rendaFixaDate" class="form-control data-input" placeholder="DD/MM/AAAA" maxlength="10" required>
             <script>
                 const  rendaFixaDateInput = document.getElementById('rendaFixaDate')
@@ -42,7 +42,7 @@
         <h2>Adicionar Renda Extra</h2>
         <form id="rendaExtraForm">
             <input type="text" id="rendaExtraDescription" placeholder="Descrição da Renda Extra" required>
-            <input type="number" id="rendaExtraAmount" placeholder="Valor da Renda Extra (ex: 300,50)" required>
+            <input type="number" id="rendaExtraAmount" step="0.01" placeholder="Valor da Renda Extra (ex: 300,50)" required>
             <input type="text" id="rendaExtraDate" class="form-control data-input" placeholder="DD/MM/AAAA" maxlength="10" required>
             <script>
                 const rendaExtraDateInput = document.getElementById('rendaExtraDate');
@@ -72,7 +72,7 @@
         <h2>Adicionar Despesa</h2>
         <form id="despesaForm">
             <input type="text" id="despesaDescription" class="form-control" placeholder="Descrição da Despesa" required>
-            <input type="number" id="despesaAmount" class="form-control" placeholder="Valor da Despesa (ex: 500,00)" required>
+            <input type="number" id="despesaAmount" step="0.01" class="form-control" placeholder="Valor da Despesa (ex: 500,00)" required>
             <input type="text" id="despesaDate" class="form-control data-input" placeholder="DD/MM/AAAA" maxlength="10" required>
             <script>
                 const despesaDateInput = document.getElementById('despesaDate');
@@ -102,7 +102,7 @@
         <h2>Adicionar Despesa Fixa</h2>
         <form id="despesaFixaForm" >
             <input type="text" id="despesaFixaDescription" class="form-control" placeholder="Descrição da Despesa Fixa" required>
-            <input type="number" id="despesaFixaAmount" class="form-control" placeholder="Valor da Despesa Fixa (ex: 200,00)" required>
+            <input type="number" id="despesaFixaAmount" step="0.01" class="form-control" placeholder="Valor da Despesa Fixa (ex: 200,00)" required>
             <input type="text" id="despesaFixaDate" class="form-control data-input" placeholder="DD/MM/AAAA" maxlength="10" required>
             <script>
                 const despesaFixaDateInput = document.getElementById('despesaFixaDate');
@@ -139,6 +139,10 @@
 
         <h2>Despesas Fixas</h2>
         <ul id="despesaFixaList" class="list"></ul>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <div class="container">
+        <canvas id="myPieChart" width="600" height="600"></canvas>
     </div>
 
     <h2><span id="balance">0.00</span></h2>

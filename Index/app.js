@@ -25,10 +25,6 @@ function formatDateToDMY(date) {
     return `${day}/${month}/${year}`;
 }
 
-// Atualiza o saldo na tela
-function updateBalance() {
-    balanceDisplay.textContent = `Saldo Total: R$ ${totalBalance.toFixed(2)}`;
-}
 
 // Adiciona uma renda extra
 rendaExtraForm.addEventListener('submit', async (e) => {
@@ -327,7 +323,47 @@ async function loadData() {
     await calculateTotalBalance();
 }
 
-// Função para calcular o saldo total
+// Configuração inicial do gráfico de pizza
+const pieChartData = {
+    labels: ['Renda Extra', 'Despesas', 'Renda Fixa', 'Despesas Fixas'],
+    datasets: [{
+        label: 'Distribuição Financeira',
+        data: [0, 0, 0, 0], // Inicialmente zeros
+        backgroundColor: ['#28a745', '#dc3545', '#007bff', '#ffc107'],
+        hoverOffset: 4
+    }]
+};
+
+const pieChartConfig = {
+    type: 'pie',
+    data: pieChartData,
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { position: 'top' },
+            tooltip: {
+                callbacks: {
+                    label: (context) => `${context.label}: R$ ${context.raw.toFixed(2)}`
+                }
+            }
+        }
+    }
+};
+
+const myPieChart = new Chart(document.getElementById('myPieChart'), pieChartConfig);
+
+// Função para atualizar o gráfico de pizza com dados reais
+function atualizarGrafico(rendaExtra, despesas, rendaFixa, despesasFixas) {
+    myPieChart.data.datasets[0].data = [rendaExtra, despesas, rendaFixa, despesasFixas];
+    myPieChart.update();
+}
+
+// Atualiza o saldo na tela
+function updateBalance() {
+    balanceDisplay.textContent = `Saldo Total: R$ ${totalBalance.toFixed(2)}`;
+}
+
+// Função para calcular o saldo total e atualizar o gráfico de pizza
 async function calculateTotalBalance() {
     const responseRendaExtra = await fetch('http://localhost:8080/renda-extra');
     const responseDespesas = await fetch('http://localhost:8080/despesas');
@@ -366,6 +402,9 @@ async function calculateTotalBalance() {
     // Calcular o saldo total
     totalBalance = rendaExtraTotal + rendaFixaTotal - (despesasTotal + despesaFixaTotal);
     updateBalance(); // Atualiza o saldo na tela
+
+    // Atualiza o gráfico com os novos valores
+    atualizarGrafico(rendaExtraTotal, despesasTotal, rendaFixaTotal, despesaFixaTotal);
 }
 
 // Carrega os dados ao iniciar
