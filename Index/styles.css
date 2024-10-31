@@ -123,3 +123,6 @@ button:hover {
 input[type="date"] {
     width: 115px; /* Largura menor para o campo de data */
 }
+.data-input {
+    width: 120px; /* Ajuste a largura conforme necessário */
+}
