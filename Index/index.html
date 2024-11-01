@@ -9,15 +9,19 @@
 <body>
 <div class="container">
     <h1>Controle Financeiro</h1>
+    <div class="header">
+        <a href="../Index/historico/historico.html">Acessar Histórico Financeiro</a>
+        <h2 id="currentYearMonth"></h2>
+    </div>
 
     <div class="form-section">
         <h2>Adicionar Renda Fixa</h2>
-        <form id="rendaFixaForm" >
+        <form id="rendaFixaForm">
             <input type="text" id="rendaFixaDescription" class="form-control" placeholder="Descrição" required>
             <input type="number" id="rendaFixaAmount" step="0.01" class="form-control" placeholder="Valor (R$)" required>
             <input type="text" id="rendaFixaDate" class="form-control data-input" placeholder="DD/MM/AAAA" maxlength="10" required>
             <script>
-                const  rendaFixaDateInput = document.getElementById('rendaFixaDate')
+                const rendaFixaDateInput = document.getElementById('rendaFixaDate');
 
                 rendaFixaDateInput.addEventListener('input', (e) => {
                     let input = e.target.value;
@@ -97,10 +101,9 @@
         </form>
     </div>
 
-
     <div class="form-section">
         <h2>Adicionar Despesa Fixa</h2>
-        <form id="despesaFixaForm" >
+        <form id="despesaFixaForm">
             <input type="text" id="despesaFixaDescription" class="form-control" placeholder="Descrição da Despesa Fixa" required>
             <input type="number" id="despesaFixaAmount" step="0.01" class="form-control" placeholder="Valor da Despesa Fixa (ex: 200,00)" required>
             <input type="text" id="despesaFixaDate" class="form-control data-input" placeholder="DD/MM/AAAA" maxlength="10" required>
@@ -149,5 +152,32 @@
 </div>
 
 <script src="app.js"></script>
+<script>
+    // Função para obter o ano atual
+    function getCurrentYear() {
+        const now = new Date();
+        return now.getFullYear(); // Retorna o ano atual
+    }
+
+    // Função para obter o mês atual
+    function getCurrentMonth() {
+        const now = new Date();
+        return now.getMonth() + 1; // Mês é de 0 a 11, então adicionamos 1
+    }
+
+    // Função para exibir o ano e o mês atuais
+    function displayCurrentYearMonth() {
+        const currentYear = getCurrentYear();
+        const currentMonth = getCurrentMonth();
+        const monthNames = [
+            "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+            "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+        ];
+        document.getElementById('currentYearMonth').innerText = `Ano: ${currentYear} - Mês: ${monthNames[currentMonth - 1]}`;
+    }
+
+    // Chame a função para exibir o ano e mês atuais ao carregar a página
+    displayCurrentYearMonth();
+</script>
 </body>
 </html>

@@ -26,13 +26,14 @@ function formatDateToDMY(date) {
 }
 
 
+
 // Adiciona uma renda extra
 rendaExtraForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-
     const rendaExtraDescription = document.getElementById('rendaExtraDescription').value.trim();
     const rendaExtraAmount = document.getElementById('rendaExtraAmount').value.replace(",", ".");
     const rendaExtraDate = document.getElementById('rendaExtraDate').value;
+    const month = getCurrentMonth(); // Obtém mês atual
 
     try {
         const response = await fetch('http://localhost:8080/renda-extra', {
@@ -41,7 +42,8 @@ rendaExtraForm.addEventListener('submit', async (e) => {
             body: JSON.stringify({
                 description: rendaExtraDescription,
                 amount: parseFloat(rendaExtraAmount),
-                dateAdded: rendaExtraDate
+                dateAdded: rendaExtraDate,
+                month: month
             }),
         });
 
@@ -65,6 +67,7 @@ rendaFixaForm.addEventListener('submit', async (e) => {
     const rendaFixaDescription = document.getElementById('rendaFixaDescription').value;
     const rendaFixaAmount = document.getElementById('rendaFixaAmount').value.replace(",", ".");
     const rendaFixaDate = document.getElementById('rendaFixaDate').value;
+    const month = getCurrentMonth(); // Obtém mês atual
 
     try {
         const response = await fetch('http://localhost:8080/renda_fixa', {
@@ -73,7 +76,8 @@ rendaFixaForm.addEventListener('submit', async (e) => {
             body: JSON.stringify({
                 description: rendaFixaDescription,
                 amount: parseFloat(rendaFixaAmount),
-                dateAdded: rendaFixaDate
+                dateAdded: rendaFixaDate,
+                month: month
             }),
         });
 
@@ -91,12 +95,14 @@ rendaFixaForm.addEventListener('submit', async (e) => {
     }
 });
 
+
 // Adiciona uma despesa
 despesaForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const despesaDescription = document.getElementById('despesaDescription').value;
     const despesaAmount = document.getElementById('despesaAmount').value.replace(",", ".");
     const despesaDate = document.getElementById('despesaDate').value;
+    const month = getCurrentMonth(); // Obtém mês atual
 
     try {
         const response = await fetch('http://localhost:8080/despesas', {
@@ -105,7 +111,8 @@ despesaForm.addEventListener('submit', async (e) => {
             body: JSON.stringify({
                 description: despesaDescription,
                 amount: parseFloat(despesaAmount),
-                dateAdded: despesaDate
+                dateAdded: despesaDate,
+                month: month
             }),
         });
 
@@ -123,15 +130,14 @@ despesaForm.addEventListener('submit', async (e) => {
     }
 });
 
+
 // Adiciona uma despesa fixa
 despesaFixaForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const despesaFixaDescription = document.getElementById('despesaFixaDescription').value;
     const despesaFixaAmount = document.getElementById('despesaFixaAmount').value.replace(",", ".");
-    const despesaFixaDate = formatDateToDMY(document.getElementById('despesaFixaDate').value);
-
-    const [day, month, year] = despesaFixaDate.split('/');
-    const formattedDate = `${year}-${month}-${day}`; // Formato AAAA-MM-DD
+    const despesaFixaDate = document.getElementById('despesaFixaDate').value;
+    const month = getCurrentMonth(); // Obtém mês atual
 
     try {
         const response = await fetch('http://localhost:8080/despesas-fixas', {
@@ -140,7 +146,8 @@ despesaFixaForm.addEventListener('submit', async (e) => {
             body: JSON.stringify({
                 description: despesaFixaDescription,
                 amount: parseFloat(despesaFixaAmount),
-                dateAdded: despesaFixaDate
+                dateAdded: despesaFixaDate,
+                month: month
             }),
         });
 
@@ -157,6 +164,7 @@ despesaFixaForm.addEventListener('submit', async (e) => {
         console.error('Erro ao adicionar despesa fixa:', error);
     }
 });
+
 
 // Função para exibir a renda extra na lista
 function displayRendaExtra(rendaExtra) {
@@ -338,7 +346,7 @@ const pieChartConfig = {
     type: 'pie',
     data: pieChartData,
     options: {
-        responsive: true,
+        responsive: false,
         plugins: {
             legend: { position: 'top' },
             tooltip: {
