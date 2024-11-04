@@ -79,15 +79,19 @@
             <input type="number" id="despesaAmount" step="0.01" class="form-control" placeholder="Valor da Despesa (ex: 500,00)" required>
             <input type="text" id="despesaDate" class="form-control data-input" placeholder="DD/MM/AAAA" maxlength="10" required>
 
-            <div class="pagamento_bar">
-            <label for="metodoPagamento">Método de Pagamento:</label>
-            <select id="metodoPagamento" class="form-control" required>
-                <option value="" disabled selected>Selecione um método</option>
-                <option value="Pix">Pix</option>
-                <option value="Crédito">Crédito</option>
-                <option value="Débito">Débito</option>
-                <option value="Boleto">Boleto</option>
-            </select>
+            <div class="metodo-pagamento">
+                <label>
+                    <input type="radio" name="metodoPagamento" value="Pix" required> Pix
+                </label>
+                <label>
+                    <input type="radio" name="metodoPagamento" value="Crédito" required> Crédito
+                </label>
+                <label>
+                    <input type="radio" name="metodoPagamento" value="Débito" required> Débito
+                </label>
+                <label>
+                    <input type="radio" name="metodoPagamento" value="Boleto" required> Boleto
+                </label>
             </div>
             <script>
                 const despesaDateInput = document.getElementById('despesaDate');
@@ -113,22 +117,28 @@
     </div>
 
     <div class="form-section">
+
         <h2>Adicionar Despesa Fixa</h2>
         <form id="despesaFixaForm">
             <input type="text" id="despesaFixaDescription" class="form-control" placeholder="Descrição da Despesa Fixa" required>
             <input type="number" id="despesaFixaAmount" step="0.01" class="form-control" placeholder="Valor da Despesa Fixa (ex: 200,00)" required>
             <input type="text" id="despesaFixaDate" class="form-control data-input" placeholder="DD/MM/AAAA" maxlength="10" required>
 
-            <div class="pagamento_bar">
-            <label for="metodoPagamentoFixo">Método de Pagamento:</label>
-            <select id="metodoPagamentoFixo" class="form-control" required>
-                <option value="" disabled selected>Selecione um método</option>
-                <option value="pix">Pix</option>
-                <option value="credito">Crédito</option>
-                <option value="debito">Débito</option>
-                <option value="boleto">Boleto</option>
-            </select>
+            <div class="metodo-pagamento">
+                <label>
+                    <input type="radio" name="metodoPagamentoFixo" value="Pix" required> Pix
+                </label>
+                <label>
+                    <input type="radio" name="metodoPagamentoFixo" value="Crédito" required> Crédito
+                </label>
+                <label>
+                    <input type="radio" name="metodoPagamentoFixo" value="Débito" required> Débito
+                </label>
+                <label>
+                    <input type="radio" name="metodoPagamentoFixo" value="Boleto" required> Boleto
+                </label>
             </div>
+
             <script>
                 const despesaFixaDateInput = document.getElementById('despesaFixaDate');
 

@@ -102,8 +102,12 @@ despesaForm.addEventListener('submit', async (e) => {
     const despesaDescription = document.getElementById('despesaDescription').value;
     const despesaAmount = document.getElementById('despesaAmount').value.replace(",", ".");
     const despesaDate = document.getElementById('despesaDate').value;
-    const metodoPagamento = document.getElementById('metodoPagamento').value; // Captura o método de pagamento
+    const metodoPagamento = document.querySelector('input[name="metodoPagamento"]:checked')?.value; // Atualizado para pegar o valor do rádio selecionado
     const month = getCurrentMonth(); // Obtém mês atual
+    if (!metodoPagamento) {
+        alert('Por favor, selecione um método de pagamento.'); // Exibe alerta se nenhum método for selecionado
+        return;
+    }
 
     try {
         const response = await fetch('http://localhost:8080/despesas', {
@@ -139,9 +143,13 @@ despesaFixaForm.addEventListener('submit', async (e) => {
     const despesaFixaDescription = document.getElementById('despesaFixaDescription').value;
     const despesaFixaAmount = document.getElementById('despesaFixaAmount').value.replace(",", ".");
     const despesaFixaDate = document.getElementById('despesaFixaDate').value;
-    const metodoPagamento = document.getElementById('metodoPagamentoFixo').value;
     const month = getCurrentMonth(); // Obtém mês atual
 
+    const metodoPagamento = document.querySelector('input[name="metodoPagamentoFixo"]:checked')?.value;
+    if (!metodoPagamento) {
+        alert('Por favor, selecione um método de pagamento.'); // Exibe alerta se nenhum método for selecionado
+        return;
+    }
     try {
         const response = await fetch('http://localhost:8080/despesas-fixas', {
             method: 'POST',
