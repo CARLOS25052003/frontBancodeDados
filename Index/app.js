@@ -102,6 +102,7 @@ despesaForm.addEventListener('submit', async (e) => {
     const despesaDescription = document.getElementById('despesaDescription').value;
     const despesaAmount = document.getElementById('despesaAmount').value.replace(",", ".");
     const despesaDate = document.getElementById('despesaDate').value;
+    const metodoPagamento = document.getElementById('metodoPagamento').value; // Captura o método de pagamento
     const month = getCurrentMonth(); // Obtém mês atual
 
     try {
@@ -112,6 +113,7 @@ despesaForm.addEventListener('submit', async (e) => {
                 description: despesaDescription,
                 amount: parseFloat(despesaAmount),
                 dateAdded: despesaDate,
+                metodoPagamento: metodoPagamento, // Adiciona o método de pagamento
                 month: month
             }),
         });
@@ -137,6 +139,7 @@ despesaFixaForm.addEventListener('submit', async (e) => {
     const despesaFixaDescription = document.getElementById('despesaFixaDescription').value;
     const despesaFixaAmount = document.getElementById('despesaFixaAmount').value.replace(",", ".");
     const despesaFixaDate = document.getElementById('despesaFixaDate').value;
+    const metodoPagamento = document.getElementById('metodoPagamentoFixo').value;
     const month = getCurrentMonth(); // Obtém mês atual
 
     try {
@@ -147,6 +150,7 @@ despesaFixaForm.addEventListener('submit', async (e) => {
                 description: despesaFixaDescription,
                 amount: parseFloat(despesaFixaAmount),
                 dateAdded: despesaFixaDate,
+                metodoPagamento: metodoPagamento,
                 month: month
             }),
         });
@@ -171,6 +175,7 @@ function displayRendaExtra(rendaExtra) {
     const li = document.createElement('li');
     li.style.display = 'flex';
     li.style.justifyContent = 'space-between';
+    li.style.color = 'blue';
     li.textContent = `${rendaExtra.description}: R$ ${rendaExtra.amount.toFixed(2)} - ${rendaExtra.dateAdded}`;
 
     const deleteButton = document.createElement('button');
@@ -187,7 +192,8 @@ function displayDespesa(despesa) {
     const li = document.createElement('li');
     li.style.display = 'flex';
     li.style.justifyContent = 'space-between';
-    li.textContent = `${despesa.description}: R$ ${despesa.amount.toFixed(2)} - ${despesa.dateAdded}`;
+    li.style.color="red";
+    li.textContent = `${despesa.description}: R$ ${despesa.amount.toFixed(2)} - ${despesa.dateAdded} - Pagamento: ${despesa.metodoPagamento}`;
 
     const deleteButton = document.createElement('button');
     deleteButton.textContent = 'Excluir';
@@ -219,7 +225,7 @@ function displayDespesaFixa(despesaFixa) {
     const li = document.createElement('li');
     li.style.display = 'flex';
     li.style.justifyContent = 'space-between';
-    li.textContent = `${despesaFixa.description}: R$ ${despesaFixa.amount.toFixed(2)} - ${despesaFixa.dateAdded}`;
+    li.textContent = `${despesaFixa.description}: R$ ${despesaFixa.amount.toFixed(2)} - ${despesaFixa.dateAdded} - Pagamento: ${despesaFixa.metodoPagamento}`;
 
     const deleteButton = document.createElement('button');
     deleteButton.textContent = 'Excluir';
@@ -369,6 +375,7 @@ function atualizarGrafico(rendaExtra, despesas, rendaFixa, despesasFixas) {
 // Atualiza o saldo na tela
 function updateBalance() {
     balanceDisplay.textContent = `Saldo Total: R$ ${totalBalance.toFixed(2)}`;
+
 }
 
 // Função para calcular o saldo total e atualizar o gráfico de pizza

@@ -16,19 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         return dadosHistorico;
     };
-
-    // Gerar dados para os últimos 12 meses
-    const dadosHistorico = gerarHistorico(12);
-
-    dadosHistorico.forEach(dado => {
-        const row = document.createElement('tr'); // Correção de "tra" para "tr"
-        row.innerHTML = `
-            <td>${dado.ano}</td>
-            <td>${dado.mes.charAt(0).toUpperCase() + dado.mes.slice(1)}</td>
-            <td><button onclick="acessarHistorico(${dado.ano}, '${dado.mes}')">Acessar</button></td>
-        `;
-        historicoTable.appendChild(row);
-    });
 });
 
 // Função para acessar o histórico de um mês específico
