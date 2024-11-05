@@ -1,4 +1,8 @@
 /* Estilos gerais do corpo */
+:root {
+    --principal--color: #192bc2
+}
+
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f4f4f4;
@@ -23,13 +27,16 @@ h1 {
     margin-bottom: 20px;
     text-align: center;
 }
+.mes--atual {
+    color: #ffffff;
+}
 
 /* Títulos de seções */
 h2 {
     color: #555;
     font-size: 1.8em;
     margin-bottom: 15px;
-    border-bottom: 2px solid #28a745; /* Linha de separação */
+    border-bottom: 2px solid var(--principal--color); /* Linha de separação */
     padding-bottom: 5px; /* Espaçamento abaixo */
 }
 
@@ -58,7 +65,7 @@ select {
     border: 1px solid #ccc;
     border-radius: 5px;
     transition: border-color 0.3s;
-    width: 100%; /* Largura total */
+    width: 40%; /* Largura total */
     font-size: 16px; /* Tamanho da fonte */
 }
 
@@ -67,14 +74,14 @@ input[type="number"]:focus,
 input[type="text"]:focus,
 input[type="date"]:focus,
 select:focus {
-    border-color: #28a745; /* Verde ao focar */
+    border-color: var(--principal--color); /* Verde ao focar */
     outline: none;
 }
 
 /* Estilo dos botões */
 button {
     padding: 12px;
-    background-color: #28a745; /* Cor de fundo */
+    background-color: var(--principal--color); /* Cor de fundo */
     color: white; /* Cor do texto */
     border: none; /* Sem borda */
     border-radius: 5px; /* Bordas arredondadas */
@@ -84,7 +91,7 @@ button {
 }
 
 button:hover {
-    background-color: #218838; /* Cor do botão ao passar o mouse */
+    background-color: #00004d; /* Cor do botão ao passar o mouse */
 }
 
 /* Estilo da lista */
@@ -134,20 +141,20 @@ button:hover {
 }
 
 /* Estilos da barra de pagamento */
-.pagamento_bar {
+.metodo-pagamento {
     margin: 20px 0; /* Espaçamento acima e abaixo */
     display: flex; /* Para alinhar o label e o select */
-    flex-direction: column; /* Direção em coluna */
+    flex-direction: row; /* Direção em coluna */
 }
 
-.pagamento_bar label {
+.metodo-pagamento label {
     font-size: 16px; /* Tamanho da fonte */
     margin-bottom: 8px; /* Espaçamento abaixo */
     color: #333; /* Cor do texto */
 }
 
 /* Estilo do select */
-.pagamento_bar select {
+.metodo-pagamento select {
     padding: 10px; /* Espaçamento interno */
     border: 1px solid #ccc; /* Cor da borda */
     border-radius: 5px; /* Bordas arredondadas */
@@ -155,7 +162,7 @@ button:hover {
     transition: border-color 0.3s; /* Transição suave */
 }
 
-.pagamento_bar select:focus {
+.metodo-pagamento select:focus {
     border-color: #007bff; /* Cor ao focar */
     outline: none; /* Remove o contorno padrão */
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Sombra ao focar */
@@ -163,23 +170,17 @@ button:hover {
 
 /* Estilo do cabeçalho */
 .header {
-    background-color: #4CAF50; /* Verde */
+    background-color: #0047ab; /* Verde */
     color: white; /* Texto branco */
     padding: 10px 20px; /* Espaçamento interno */
     text-align: center; /* Centraliza o texto */
     border-radius: 5px; /* Bordas arredondadas */
     margin-bottom: 20px; /* Espaço abaixo do cabeçalho */
 }
-
 /* Tamanho do mês e ano */
 #currentYearMonth {
     font-size: 24px; /* Tamanho da fonte */
     font-weight: bold; /* Fonte em negrito */
-}
-
-/* Estilo da tabela */
-.month-year-table {
-    margin: 20px 0; /* Espaço acima e abaixo */
 }
 
 table {
@@ -208,3 +209,16 @@ table tr:hover {
     background-color: #f1f1f1; /* Efeito de hover nas linhas */
 }
 
+/* Controle Do grafico Pie */
+.chart-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 35vh;
+}
+.chart-container canvas {
+    max-width: 400px;
+    max-height: 400px;
+    width: 100%;
+    height: auto;
+}

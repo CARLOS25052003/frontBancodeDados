@@ -1,27 +1,28 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const historicoTable = document.getElementById('historicoTable');
-
-    // Função para gerar meses passados
-    const gerarHistorico = (quantidade) => {
-        const dadosHistorico = [];
-        const dataAtual = new Date();
-
-        for (let i = 0; i < quantidade; i++) {
-            const mesAtual = new Date(dataAtual.getFullYear(), dataAtual.getMonth() - i, 1);
-            dadosHistorico.push({
-                ano: mesAtual.getFullYear(),
-                mes: mesAtual.toLocaleString('pt-BR', { month: 'long' })
-            });
+// Função para buscar meses
+async function fetchMeses() {
+    try {
+        const response = await fetch('http://localhost:8080/mes'); // URL correta da sua API
+        if (!response.ok) {
+            throw new Error('Erro ao buscar os meses');
         }
-
-        return dadosHistorico;
-    };
-});
-
-// Função para acessar o histórico de um mês específico
-function acessarHistorico(ano, mes) {
-    // Aqui você pode redirecionar para outra página ou carregar os dados do histórico para exibir
-    alert(`Acessando histórico de ${mes} de ${ano}`);
-    // Exemplo: redireciona para a página de histórico detalhado
-    // window.location.href = `historicoDetalhado.html?ano=${ano}&mes=${mes}`;
+        const meses = await response.json();
+        renderizarMeses(meses);
+    } catch (error) {
+        console.error('Erro:', error);
+    }
 }
+
+// Função para renderizar meses no HTML
+function renderizarMeses(meses) {
+    const listaMeses = document.getElementById('lista-meses'); // Certifique-se de que este elemento exista no seu HTML
+    listaMeses.innerHTML = ''; // Limpa a lista antes de adicionar os novos meses
+
+    meses.forEach(mes => {
+        const li = document.createElement('li');
+        li.textContent = `Mês: ${mes.mes}`;
+        listaMeses.appendChild(li);
+    });
+}
+
+// Chama a função fetchMeses quando a página carregar
+document.addEventListener('DOMContentLoaded', fetchMeses);

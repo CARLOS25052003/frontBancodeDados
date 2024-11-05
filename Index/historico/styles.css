@@ -1,179 +1,27 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 20px;
 }
 
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-}
-
-h1 {
+h1, h2 {
     color: #333;
-    font-size: 2em;
-    margin-bottom: 20px;
-    text-align: center;
 }
 
-h2 {
-    color: #555;
-    font-size: 1.5em;
-    margin-bottom: 10px;
-}
-
-.form-section {
-    margin-bottom: 20px;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #fafafa;
-}
-
-.form {
-    display: flex;
-    flex-direction: column;
-}
-
-input[type="number"],
-input[type="text"],
-input[type="date"] {
-    padding: 12px;
-    margin: 5px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    transition: border-color 0.3s;
-    width: 100%; /* Manter largura total para todos os inputs */
-}
-
-input[type="number"]:focus,
-input[type="text"]:focus,
-input[type="date"]:focus {
-    border-color: #28a745;
-    outline: none;
-}
-
-button {
-    padding: 12px;
-    background-color: #28a745; /* Cor de fundo */
-    color: white; /* Cor do texto */
-    border: none; /* Sem borda */
-    border-radius: 5px; /* Bordas arredondadas */
-    cursor: pointer; /* Cursor em forma de mão */
-    font-size: 1em; /* Tamanho da fonte */
-    transition: background-color 0.3s; /* Transição suave para a cor de fundo */
-}
-
-button:hover {
-    background-color: #218838; /* Cor do botão ao passar o mouse */
-}
-
-.list {
+#mesesList {
     list-style-type: none;
     padding: 0;
 }
 
-.list li {
-    display: flex; /* Usar flexbox para o alinhamento */
-    justify-content: space-between; /* Espaçamento entre o texto e o botão */
-    align-items: center; /* Centraliza verticalmente o texto e o botão */
-    padding: 10px 0;
-    border-bottom: 1px solid #eee;
-    transition: background-color 0.2s;
-}
-
-.list li:nth-child(even) {
-    background-color: #f9f9f9; /* Fundo alternado para facilitar a leitura */
-}
-
-.list li:hover {
-    background-color: #f1f1f1; /* Efeito de hover nas listas */
-}
-
-#balance {
-    font-weight: bold;
-    font-size: 1.2em;
-    margin-top: 20px;
-    text-align: center;
-}
-
-.delete-button {
-    background-color: #dc3545; /* Cor do botão de excluir */
-    color: white;
-    border: none;
-    border-radius: 5px;
+#mesesList li {
     cursor: pointer;
-    padding: 5px 10px;
-    transition: background-color 0.3s;
-}
-
-.delete-button:hover {
-    background-color: #c82333; /* Cor do botão de excluir ao passar o mouse */
-}
-.form-control {
-    width: 250px; /* Ajuste a largura conforme necessário */
-    margin-bottom: 15px; /* Espaçamento inferior para melhor aparência */
-}
-
-input[type="date"] {
-    width: 115px; /* Largura menor para o campo de data */
-}
-.data-input {
-    width: 120px; /* Ajuste a largura conforme necessário */
-}
-.header {
-    background-color: #4CAF50; /* Cor de fundo */
-    color: white; /* Cor do texto */
-    padding: 10px 20px; /* Espaçamento interno */
-    text-align: center; /* Centraliza o texto */
-    border-radius: 5px; /* Bordas arredondadas */
-    margin-bottom: 20px; /* Espaço abaixo do cabeçalho */
-}
-
-#currentYearMonth {
-    font-size: 24px; /* Tamanho da fonte */
-    font-weight: bold; /* Fonte em negrito */
-}
-.month-year-table {
-    margin: 20px 0; /* Espaço acima e abaixo da tabela */
-}
-
-table {
-    width: 100%; /* Largura total da tabela */
-    border-collapse: collapse; /* Remove espaços entre as células */
-}
-
-th, td {
-    border: 1px solid #ddd; /* Borda das células */
-    padding: 10px; /* Espaçamento interno das células */
-    text-align: center; /* Alinhamento central do texto */
-}
-
-th {
-    background-color: #4CAF50; /* Cor de fundo do cabeçalho */
-    color: white; /* Cor do texto do cabeçalho */
-}
-
-tr:hover {
-    background-color: #f1f1f1; /* Cor de fundo ao passar o mouse */
-    cursor: pointer; /* Indica que a linha é clicável */
-}
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-th, td {
+    margin: 5px 0;
     padding: 10px;
-    text-align: left;
-    border: 1px solid #ddd;
+    background-color: #f0f0f0;
 }
 
-th {
-    background-color: #f2f2f2;
+#mesesList li:hover {
+    background-color: #ddd;
+}
+
+#despesasContainer {
+    margin-top: 20px;
 }

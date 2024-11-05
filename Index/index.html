@@ -11,7 +11,7 @@
     <h1>Controle Financeiro</h1>
     <div class="header">
         <a href="../Index/historico/historico.html">Acessar Histórico Financeiro</a>
-        <h2 id="currentYearMonth"></h2>
+        <h2 class="mes--atual" id="currentYearMonth"></h2>
     </div>
 
     <div class="form-section">
@@ -47,6 +47,9 @@
         <form id="rendaExtraForm">
             <input type="text" id="rendaExtraDescription" placeholder="Descrição da Renda Extra" required>
             <input type="number" id="rendaExtraAmount" step="0.01" placeholder="Valor da Renda Extra (ex: 300,50)" required>
+            <script>
+                input = input.slice(1) + 'R$'
+            </script>
             <input type="text" id="rendaExtraDate" class="form-control data-input" placeholder="DD/MM/AAAA" maxlength="10" required>
             <script>
                 const rendaExtraDateInput = document.getElementById('rendaExtraDate');
@@ -175,11 +178,13 @@
         <h2>Despesas Fixas</h2>
         <ul id="despesaFixaList" class="list"></ul>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <div class="container">
-        <canvas id="myPieChart" width="600" height="600"></canvas>
-    </div>
 
+    <div class="chart-container">
+        <h2> Graficos </h2>
+        <canvas class="pie--grafic" id="myPieChart"></canvas>
+        <canvas class="pie--grafic" id="metodoPagamentoPieChart"></canvas>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <h2><span id="balance">0.00</span></h2>
 </div>
 

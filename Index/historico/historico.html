@@ -3,45 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <title>Histórico Financeiro</title>
+    <title>Lista de Meses</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            padding: 8px;
+            margin: 4px 0;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-    <h1>Histórico Financeiro</h1>
-    <div class="header">
-        <a href="../index.html">Acessar Histórico Financeiro</a>
-        <h2 id="currentYearMonth"></h2>
-    </div>
-
-    <!-- Tabela para acessar meses e anos passados -->
-    <div class="month-year-table">
-        <h2>Acessar Mês e Ano Anteriores</h2>
-        <table>
-            <thead>
-            <tr>
-                <th>Ano</th>
-                <th>Mês</th>
-            </tr>
-            </thead>
-            <tbody id="monthYearList">
-            <!-- As opções de meses e anos serão geradas aqui -->
-            </tbody>
-        </table>
-    </div>
-    <table>
-        <thead>
-        <tr>
-            <th>Ano</th>
-            <th>Mês</th>
-            <th>Ação</th>
-        </tr>
-        </thead>
-        <tbody id="historicoTable">
-        <!-- Os dados dos meses e anos passados serão inseridos aqui -->
-        </tbody>
-    </table>
-</div>
+<h1>Meses Disponíveis</h1>
+<ul id="lista-meses"></ul>
 
 <script src="historico.js"></script>
 </body>
