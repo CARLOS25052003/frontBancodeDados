@@ -9,15 +9,19 @@
 <body>
 <div class="container">
     <h1>Controle Financeiro</h1>
+    <div class="header">
+        <a href="../Index/historico/historico.html">Acessar Histórico Financeiro</a>
+        <h2 class="mes--atual" id="currentYearMonth"></h2>
+    </div>
 
     <div class="form-section">
         <h2>Adicionar Renda Fixa</h2>
-        <form id="rendaFixaForm" >
+        <form id="rendaFixaForm">
             <input type="text" id="rendaFixaDescription" class="form-control" placeholder="Descrição" required>
             <input type="number" id="rendaFixaAmount" step="0.01" class="form-control" placeholder="Valor (R$)" required>
             <input type="text" id="rendaFixaDate" class="form-control data-input" placeholder="DD/MM/AAAA" maxlength="10" required>
             <script>
-                const  rendaFixaDateInput = document.getElementById('rendaFixaDate')
+                const rendaFixaDateInput = document.getElementById('rendaFixaDate');
 
                 rendaFixaDateInput.addEventListener('input', (e) => {
                     let input = e.target.value;
@@ -43,6 +47,9 @@
         <form id="rendaExtraForm">
             <input type="text" id="rendaExtraDescription" placeholder="Descrição da Renda Extra" required>
             <input type="number" id="rendaExtraAmount" step="0.01" placeholder="Valor da Renda Extra (ex: 300,50)" required>
+            <script>
+                input = input.slice(1) + 'R$'
+            </script>
             <input type="text" id="rendaExtraDate" class="form-control data-input" placeholder="DD/MM/AAAA" maxlength="10" required>
             <script>
                 const rendaExtraDateInput = document.getElementById('rendaExtraDate');
@@ -74,6 +81,21 @@
             <input type="text" id="despesaDescription" class="form-control" placeholder="Descrição da Despesa" required>
             <input type="number" id="despesaAmount" step="0.01" class="form-control" placeholder="Valor da Despesa (ex: 500,00)" required>
             <input type="text" id="despesaDate" class="form-control data-input" placeholder="DD/MM/AAAA" maxlength="10" required>
+
+            <div class="metodo-pagamento">
+                <label>
+                    <input type="radio" name="metodoPagamento" value="Pix" required> Pix
+                </label>
+                <label>
+                    <input type="radio" name="metodoPagamento" value="Crédito" required> Crédito
+                </label>
+                <label>
+                    <input type="radio" name="metodoPagamento" value="Débito" required> Débito
+                </label>
+                <label>
+                    <input type="radio" name="metodoPagamento" value="Boleto" required> Boleto
+                </label>
+            </div>
             <script>
                 const despesaDateInput = document.getElementById('despesaDate');
 
@@ -97,13 +119,29 @@
         </form>
     </div>
 
-
     <div class="form-section">
+
         <h2>Adicionar Despesa Fixa</h2>
-        <form id="despesaFixaForm" >
+        <form id="despesaFixaForm">
             <input type="text" id="despesaFixaDescription" class="form-control" placeholder="Descrição da Despesa Fixa" required>
             <input type="number" id="despesaFixaAmount" step="0.01" class="form-control" placeholder="Valor da Despesa Fixa (ex: 200,00)" required>
             <input type="text" id="despesaFixaDate" class="form-control data-input" placeholder="DD/MM/AAAA" maxlength="10" required>
+
+            <div class="metodo-pagamento">
+                <label>
+                    <input type="radio" name="metodoPagamentoFixo" value="Pix" required> Pix
+                </label>
+                <label>
+                    <input type="radio" name="metodoPagamentoFixo" value="Crédito" required> Crédito
+                </label>
+                <label>
+                    <input type="radio" name="metodoPagamentoFixo" value="Débito" required> Débito
+                </label>
+                <label>
+                    <input type="radio" name="metodoPagamentoFixo" value="Boleto" required> Boleto
+                </label>
+            </div>
+
             <script>
                 const despesaFixaDateInput = document.getElementById('despesaFixaDate');
 
@@ -140,14 +178,43 @@
         <h2>Despesas Fixas</h2>
         <ul id="despesaFixaList" class="list"></ul>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <div class="container">
-        <canvas id="myPieChart" width="600" height="600"></canvas>
-    </div>
 
+    <div class="chart-container">
+        <h2> Graficos </h2>
+        <canvas class="pie--grafic" id="myPieChart"></canvas>
+        <canvas class="pie--grafic" id="metodoPagamentoPieChart"></canvas>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <h2><span id="balance">0.00</span></h2>
 </div>
 
 <script src="app.js"></script>
+<script>
+    // Função para obter o ano atual
+    function getCurrentYear() {
+        const now = new Date();
+        return now.getFullYear(); // Retorna o ano atual
+    }
+
+    // Função para obter o mês atual
+    function getCurrentMonth() {
+        const now = new Date();
+        return now.getMonth() + 1; // Mês é de 0 a 11, então adicionamos 1
+    }
+
+    // Função para exibir o ano e o mês atuais
+    function displayCurrentYearMonth() {
+        const currentYear = getCurrentYear();
+        const currentMonth = getCurrentMonth();
+        const monthNames = [
+            "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+            "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+        ];
+        document.getElementById('currentYearMonth').innerText = `Ano: ${currentYear} - Mês: ${monthNames[currentMonth - 1]}`;
+    }
+
+    // Chame a função para exibir o ano e mês atuais ao carregar a página
+    displayCurrentYearMonth();
+</script>
 </body>
 </html>

@@ -25,14 +25,17 @@ function formatDateToDMY(date) {
     return `${day}/${month}/${year}`;
 }
 
+function atualizarGraficoMetodoPagamento() {
+    gerarGraficoMetodoPagamento();
+}
 
 // Adiciona uma renda extra
 rendaExtraForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-
     const rendaExtraDescription = document.getElementById('rendaExtraDescription').value.trim();
     const rendaExtraAmount = document.getElementById('rendaExtraAmount').value.replace(",", ".");
     const rendaExtraDate = document.getElementById('rendaExtraDate').value;
+    const month = getCurrentMonth(); // Obtém mês atual
 
     try {
         const response = await fetch('http://localhost:8080/renda-extra', {
@@ -41,7 +44,8 @@ rendaExtraForm.addEventListener('submit', async (e) => {
             body: JSON.stringify({
                 description: rendaExtraDescription,
                 amount: parseFloat(rendaExtraAmount),
-                dateAdded: rendaExtraDate
+                dateAdded: rendaExtraDate,
+                month: month
             }),
         });
 
@@ -51,6 +55,7 @@ rendaExtraForm.addEventListener('submit', async (e) => {
             updateBalance();
             displayRendaExtra(rendaExtra);
             rendaExtraForm.reset();
+            await calculateTotalBalance(); // Chama a função que atualiza o saldo e o gráfico
         } else {
             console.error('Erro ao adicionar renda extra:', await response.text());
         }
@@ -65,6 +70,7 @@ rendaFixaForm.addEventListener('submit', async (e) => {
     const rendaFixaDescription = document.getElementById('rendaFixaDescription').value;
     const rendaFixaAmount = document.getElementById('rendaFixaAmount').value.replace(",", ".");
     const rendaFixaDate = document.getElementById('rendaFixaDate').value;
+    const month = getCurrentMonth(); // Obtém mês atual
 
     try {
         const response = await fetch('http://localhost:8080/renda_fixa', {
@@ -73,7 +79,8 @@ rendaFixaForm.addEventListener('submit', async (e) => {
             body: JSON.stringify({
                 description: rendaFixaDescription,
                 amount: parseFloat(rendaFixaAmount),
-                dateAdded: rendaFixaDate
+                dateAdded: rendaFixaDate,
+                month: month
             }),
         });
 
@@ -83,6 +90,7 @@ rendaFixaForm.addEventListener('submit', async (e) => {
             updateBalance();
             displayRendaFixa(rendaFixa);
             rendaFixaForm.reset();
+            await calculateTotalBalance(); // Chama a função que atualiza o saldo e o gráfico
         } else {
             console.error('Erro ao adicionar renda fixa:', await response.text());
         }
@@ -91,12 +99,19 @@ rendaFixaForm.addEventListener('submit', async (e) => {
     }
 });
 
+
 // Adiciona uma despesa
 despesaForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const despesaDescription = document.getElementById('despesaDescription').value;
     const despesaAmount = document.getElementById('despesaAmount').value.replace(",", ".");
     const despesaDate = document.getElementById('despesaDate').value;
+    const metodoPagamento = document.querySelector('input[name="metodoPagamento"]:checked')?.value; // Atualizado para pegar o valor do rádio selecionado
+    const month = getCurrentMonth(); // Obtém mês atual
+    if (!metodoPagamento) {
+        alert('Por favor, selecione um método de pagamento.'); // Exibe alerta se nenhum método for selecionado
+        return;
+    }
 
     try {
         const response = await fetch('http://localhost:8080/despesas', {
@@ -105,7 +120,9 @@ despesaForm.addEventListener('submit', async (e) => {
             body: JSON.stringify({
                 description: despesaDescription,
                 amount: parseFloat(despesaAmount),
-                dateAdded: despesaDate
+                dateAdded: despesaDate,
+                metodoPagamento: metodoPagamento, // Adiciona o método de pagamento
+                month: month
             }),
         });
 
@@ -115,6 +132,8 @@ despesaForm.addEventListener('submit', async (e) => {
             updateBalance();
             displayDespesa(despesa);
             despesaForm.reset();
+            await atualizaGraficoMetodoPagamento();
+            await calculateTotalBalance(); // Chama a função que atualiza o saldo e o gráfico
         } else {
             console.error('Erro ao adicionar despesa:', await response.text());
         }
@@ -123,16 +142,20 @@ despesaForm.addEventListener('submit', async (e) => {
     }
 });
 
+
 // Adiciona uma despesa fixa
 despesaFixaForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const despesaFixaDescription = document.getElementById('despesaFixaDescription').value;
     const despesaFixaAmount = document.getElementById('despesaFixaAmount').value.replace(",", ".");
-    const despesaFixaDate = formatDateToDMY(document.getElementById('despesaFixaDate').value);
+    const despesaFixaDate = document.getElementById('despesaFixaDate').value;
+    const month = getCurrentMonth(); // Obtém mês atual
 
-    const [day, month, year] = despesaFixaDate.split('/');
-    const formattedDate = `${year}-${month}-${day}`; // Formato AAAA-MM-DD
-
+    const metodoPagamento = document.querySelector('input[name="metodoPagamentoFixo"]:checked')?.value;
+    if (!metodoPagamento) {
+        alert('Por favor, selecione um método de pagamento.'); // Exibe alerta se nenhum método for selecionado
+        return;
+    }
     try {
         const response = await fetch('http://localhost:8080/despesas-fixas', {
             method: 'POST',
@@ -140,7 +163,9 @@ despesaFixaForm.addEventListener('submit', async (e) => {
             body: JSON.stringify({
                 description: despesaFixaDescription,
                 amount: parseFloat(despesaFixaAmount),
-                dateAdded: despesaFixaDate
+                dateAdded: despesaFixaDate,
+                metodoPagamento: metodoPagamento,
+                month: month
             }),
         });
 
@@ -150,6 +175,8 @@ despesaFixaForm.addEventListener('submit', async (e) => {
             updateBalance();
             displayDespesaFixa(despesaFixa);
             despesaFixaForm.reset();
+            await atualizaGraficoMetodoPagamento();
+            await calculateTotalBalance(); // Chama a função que atualiza o saldo e o gráfico
         } else {
             console.error('Erro ao adicionar despesa fixa:', await response.text());
         }
@@ -158,11 +185,13 @@ despesaFixaForm.addEventListener('submit', async (e) => {
     }
 });
 
+
 // Função para exibir a renda extra na lista
 function displayRendaExtra(rendaExtra) {
     const li = document.createElement('li');
     li.style.display = 'flex';
     li.style.justifyContent = 'space-between';
+    li.style.color = 'green';
     li.textContent = `${rendaExtra.description}: R$ ${rendaExtra.amount.toFixed(2)} - ${rendaExtra.dateAdded}`;
 
     const deleteButton = document.createElement('button');
@@ -179,7 +208,8 @@ function displayDespesa(despesa) {
     const li = document.createElement('li');
     li.style.display = 'flex';
     li.style.justifyContent = 'space-between';
-    li.textContent = `${despesa.description}: R$ ${despesa.amount.toFixed(2)} - ${despesa.dateAdded}`;
+    li.style.color="red";
+    li.textContent = `${despesa.description}: R$ ${despesa.amount.toFixed(2)} - ${despesa.dateAdded} - Pagamento: ${despesa.metodoPagamento}`;
 
     const deleteButton = document.createElement('button');
     deleteButton.textContent = 'Excluir';
@@ -195,6 +225,7 @@ function displayRendaFixa(rendaFixa) {
     const li = document.createElement('li');
     li.style.display = 'flex';
     li.style.justifyContent = 'space-between';
+    li.style.color='blue';
     li.textContent = `${rendaFixa.description}: R$ ${rendaFixa.amount.toFixed(2)} - ${rendaFixa.dateAdded}`;
 
     const deleteButton = document.createElement('button');
@@ -211,7 +242,8 @@ function displayDespesaFixa(despesaFixa) {
     const li = document.createElement('li');
     li.style.display = 'flex';
     li.style.justifyContent = 'space-between';
-    li.textContent = `${despesaFixa.description}: R$ ${despesaFixa.amount.toFixed(2)} - ${despesaFixa.dateAdded}`;
+    li.style.color='#FFA700';
+    li.textContent = `${despesaFixa.description}: R$ ${despesaFixa.amount.toFixed(2)} - ${despesaFixa.dateAdded} - Pagamento: ${despesaFixa.metodoPagamento}`;
 
     const deleteButton = document.createElement('button');
     deleteButton.textContent = 'Excluir';
@@ -245,6 +277,7 @@ async function deleteDespesa(id, amount) {
             totalBalance += amount; // Adiciona a despesa ao excluir
             updateBalance();
             loadData();
+            atualizaGraficoMetodoPagamento();
         } else {
             console.error('Erro ao deletar despesa:', await response.text());
         }
@@ -275,6 +308,7 @@ async function deleteDespesaFixa(id, amount) {
             totalBalance += amount; // Adiciona a despesa fixa ao excluir
             updateBalance();
             loadData();
+            atualizaGraficoMetodoPagamento();
         } else {
             console.error('Erro ao deletar despesa fixa:', await response.text());
         }
@@ -338,7 +372,7 @@ const pieChartConfig = {
     type: 'pie',
     data: pieChartData,
     options: {
-        responsive: true,
+        responsive: false,
         plugins: {
             legend: { position: 'top' },
             tooltip: {
@@ -349,6 +383,74 @@ const pieChartConfig = {
         }
     }
 };
+
+let metodoPagamentoChart; // Variável global para armazenar a instância do gráfico
+
+async function gerarGraficoMetodoPagamento() {
+    // Pega as despesas fixas e variáveis do backend
+    const despesasFixaResponse = await fetch('http://localhost:8080/despesas-fixas');
+    const despesasVariavelResponse = await fetch('http://localhost:8080/despesas');
+    const despesasFixa = await despesasFixaResponse.json();
+    const despesasVariavel = await despesasVariavelResponse.json();
+
+    // Agrupa por método de pagamento
+    const pagamentosTotais = {};
+
+    [...despesasFixa, ...despesasVariavel].forEach(despesa => {
+        const metodo = despesa.metodoPagamento;
+        const amount = parseFloat(despesa.amount);
+
+        if (pagamentosTotais[metodo]) {
+            pagamentosTotais[metodo] += amount;
+        } else {
+            pagamentosTotais[metodo] = amount;
+        }
+    });
+
+    // Prepara os dados para o gráfico
+    const labels = Object.keys(pagamentosTotais);
+    const data = Object.values(pagamentosTotais);
+
+    // Cria o gráfico de pizza
+    const ctx = document.getElementById('metodoPagamentoPieChart').getContext('2d');
+    if (!metodoPagamentoChart) {
+        metodoPagamentoChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Metodos de Pagamento',
+                data: data,
+                backgroundColor: ['#4CAF50', '#FFC107', '#2196F3', '#FF5722'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: false,
+            plugins: {
+                legend: { position: 'top' },
+                tooltip: {
+                    callbacks: {
+                        label: (context) => `${context.label}: R$ ${context.raw.toFixed(2)}`
+                    }
+                }
+            }
+        }
+    });
+} else {
+        // Atualiza os dados do gráfico existente
+        metodoPagamentoChart.data.labels = labels;
+        metodoPagamentoChart.data.datasets[0].data = data;
+        metodoPagamentoChart.update();
+    }
+}
+
+// Chama a função para gerar o gráfico
+gerarGraficoMetodoPagamento();
+
+async function atualizaGraficoMetodoPagamento(){
+    await gerarGraficoMetodoPagamento();
+}
 
 const myPieChart = new Chart(document.getElementById('myPieChart'), pieChartConfig);
 
@@ -361,6 +463,7 @@ function atualizarGrafico(rendaExtra, despesas, rendaFixa, despesasFixas) {
 // Atualiza o saldo na tela
 function updateBalance() {
     balanceDisplay.textContent = `Saldo Total: R$ ${totalBalance.toFixed(2)}`;
+
 }
 
 // Função para calcular o saldo total e atualizar o gráfico de pizza
@@ -406,6 +509,5 @@ async function calculateTotalBalance() {
     // Atualiza o gráfico com os novos valores
     atualizarGrafico(rendaExtraTotal, despesasTotal, rendaFixaTotal, despesaFixaTotal);
 }
-
 // Carrega os dados ao iniciar
 loadData();
