@@ -222,3 +222,32 @@ table tr:hover {
     width: 100%;
     height: auto;
 }
+.rodapé {
+    position: fixed;
+    left: 0; /* Alinha o footer ao lado esquerdo */
+    bottom: 0; /* Fixa na parte inferior */
+    padding: 10px;
+    color: #333;
+    background-color: transparent; /* Sem fundo */
+    text-align: left;
+    z-index: 9999; /* Para garantir que o footer fique acima de outros elementos */
+}
+
+.rodapé .contato ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.rodapé .contato ul li {
+    margin: 5px 0;
+}
+
+.rodapé .contato a {
+    color: #333;
+    text-decoration: none;
+}
+
+.rodapé .contato a:hover {
+    text-decoration: underline;
+}

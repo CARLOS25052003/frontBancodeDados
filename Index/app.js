@@ -24,11 +24,6 @@ function formatDateToDMY(date) {
     const [day, month, year] = date.split('/');
     return `${day}/${month}/${year}`;
 }
-
-function atualizarGraficoMetodoPagamento() {
-    gerarGraficoMetodoPagamento();
-}
-
 // Adiciona uma renda extra
 rendaExtraForm.addEventListener('submit', async (e) => {
     e.preventDefault();
